@@ -1,0 +1,21 @@
+{
+  "Choose language": "Choose language",
+  "English": "אנגלית",
+  "Hebrew": "עברית",
+  "login": "היכנס",
+  "signup":"הירשם",
+  "Sign Up":"הירשם",
+  "Log in to your account":"היכנס לחשבון שלך",
+  "Create your account":"צור את החשבון שלך",
+  "Don't have an account?":"אין לך חשבון?",
+  "Have an account?":"כבר יש לך חשבון?",
+  "User Name": "שם משתמש",
+  "Password": "סיסמא",
+  "User Name :":"שם משתמש :",
+  "Password :":"סיסמא :",
+  "Email :":"מייל :",
+  "Enter your email":"הכנס מייל",
+  "Enter your username":"הכנס שם משתמש ",
+  "Enter your password":"הכנס סיסמא ",
+  "Log in now":"הכנס עכשיו"
+}
