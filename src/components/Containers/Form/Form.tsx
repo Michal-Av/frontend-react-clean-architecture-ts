@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import FormField from './FormField';
 import './Form.css';
 import { useTranslation } from 'react-i18next';
+import ButtonLink from '../../UIElements/ButtonLink';
 
 interface Field {
   label: string;
@@ -17,9 +18,10 @@ interface FormProps {
   buttonText: string;
   actionText: string;
   onActionClick: () => void;
+  onForgotClick: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit, message, fields, buttonText, actionText, onActionClick }) => {
+const Form: React.FC<FormProps> = ({ onSubmit, message, fields, buttonText, actionText, onActionClick, onForgotClick }) => {
   const [formData, setFormData] = useState<{ [key: string]: string }>(
     fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
   );
@@ -36,8 +38,8 @@ const Form: React.FC<FormProps> = ({ onSubmit, message, fields, buttonText, acti
     <div className={`login-form ${formAlignmentClass}`}>
       <h3>{t(actionText)}</h3>
       <div>
-        {actionText === t("Log in to your account") && <>{t("Don't have an account?")} <a href="#" onClick={onActionClick}>{t("Sign Up")}</a></>}
-        {actionText === t("Create your account") && <>{t("Have an account?")} <a href="#" onClick={onActionClick}>{t("Log in now")}</a></>}
+        {actionText === t("Log in to your account") && <>{t("Don't have an account?")} <ButtonLink onClick={onActionClick}>{t("Sign Up")}</ButtonLink></>}
+        {actionText === t("Create your account") && <>{t("Have an account?")} <ButtonLink onClick={onActionClick}>{t("Log in now")}</ButtonLink></>}
       </div>
       <br />
       <form onSubmit={handleSubmit}>
@@ -54,7 +56,8 @@ const Form: React.FC<FormProps> = ({ onSubmit, message, fields, buttonText, acti
             <br />
           </div>
         ))}
-        <br />
+
+        {actionText === t("Log in to your account") && <><ButtonLink onClick={onForgotClick}>{t("Forgot password?")}</ButtonLink></>}
         <div className="message">{message}</div>
         <br />
         <div>

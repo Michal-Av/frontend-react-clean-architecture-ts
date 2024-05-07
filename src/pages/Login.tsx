@@ -13,6 +13,7 @@ interface LoginCompProps {
 
 const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
   const [signupMode, setSignupMode] = useState<boolean>(false);
+  const [ForgotMode, setForgotMode] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const { t, i18n } = useTranslation();
   const history = useHistory();
@@ -28,6 +29,10 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
     { label: t('Email :'), type: 'email', name: 'email', placeholder: t('Enter your email') },
     { label: t('User Name :'), type: 'text', name: 'username', placeholder: t('Enter your username') },
     { label: t('Password :'), type: 'password', name: 'password', placeholder: t('Enter your password') }
+  ];
+
+  const forgotPasswordFields = [
+    { label: t('Email :'), type: 'email', name: 'email', placeholder: t('Enter your email') }
   ];
 
   useEffect(() => {
@@ -60,6 +65,18 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
     }
   };
 
+    // Handle forgot password submission
+    const handleForgotPassword = async (formData: { email: string }) => {
+      try {
+        // Implement your forgot password logic here
+        console.log('Forgot password form submitted');
+        setForgotMode(false); // After submitting, revert to the login form
+      } catch (error) {
+        setMessage('Failed to process the request');
+      }
+    };
+  
+
   // Determine the form alignment based on language direction
   const formAlignmentClass = i18n.language === 'he' ? 'login-form-right' : 'login-form-left';
 
@@ -71,7 +88,7 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
         </div>
         <LanguageSelector onLanguageChange={i18n.changeLanguage} />
       </div>
-      <div className={`main-page ${formAlignmentClass}`}>
+      {!ForgotMode? <div className={`main-page ${formAlignmentClass}`}>
         {/* Apply the appropriate alignment class */}
         <Form
           onSubmit={signupMode ? handleSignup : handleLogin}
@@ -80,8 +97,23 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
           buttonText={signupMode ? t('signup') : t('login')}
           actionText={signupMode ? t('Create your account') : t('Log in to your account')}
           onActionClick={() => setSignupMode(!signupMode)}
+          onForgotClick={() => setForgotMode(true)}
+        />
+      </div> : 
+     (
+      <div className={`main-page ${formAlignmentClass}`}>
+        {/* Apply the appropriate alignment class */}
+        <Form
+          onSubmit={handleForgotPassword}
+          message={message}
+          fields={forgotPasswordFields}
+          buttonText={t('Send Reset Email')}
+          actionText={t('Forgot Password?')}
+          onActionClick={() => setForgotMode(false)} // Toggle back to the login form
+          onForgotClick={() => setForgotMode(false)}
         />
       </div>
+    )}
     </div>
   );
 };
