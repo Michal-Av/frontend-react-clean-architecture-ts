@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { resetPassword } from '../services/api-auth';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -29,19 +29,17 @@ const ResetPassword: React.FC<ResetPasswordPageProps> = ({ setLoggedIn }) => {
   
   const passFields = [
     { label: t('Password :'), type: 'password', name: 'password', placeholder: t('') },
-    { label: t('Confirm Password :'), type: 'password', name: 'confirm password',placeholder: t('')}
+    { label: t('Confirm Password :'), type: 'password', name: 'newpassword', placeholder: t('')}
   ];
 
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newPassword !== confirmPassword) {
+  const handleSubmit = async (formData: { password: string; newpassword: string }) => {
+    if (formData.password !== formData.newpassword) {
       setMessage('Passwords do not match');
       return;
     }
 
     try {
-      await resetPassword(token, newPassword);
+      await resetPassword(token, formData.newpassword);
       setResetSuccess(true);
       setMessage('Password reset successfully');
       history.push('/login');
