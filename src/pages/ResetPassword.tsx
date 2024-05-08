@@ -32,6 +32,20 @@ const ResetPassword: React.FC<ResetPasswordPageProps> = ({ setLoggedIn }) => {
     { label: t('Confirm Password :'), type: 'password', name: 'newpassword', placeholder: t('')}
   ];
 
+  useEffect(() => {
+    return () => {
+      setMessage(''); // Reset the message when the component unmounts
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage('');
+    }, 5000); // Clear the message after 5 seconds
+  
+    return () => clearTimeout(timer); // Clear the timer when the component unmounts or when the message changes
+  }, [message]);
+
   const handleSubmit = async (formData: { password: string; newpassword: string }) => {
     if (formData.password !== formData.newpassword) {
       setMessage('Passwords do not match');

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Form from '../components/Containers/Form/Form';
+import ButtonLink from '../components/UIElements/ButtonLink';
 import { login, signup, forgot_pass } from '../services/api-auth';
 import { useTranslation } from 'react-i18next';
 import '../styles/Login.css';
@@ -34,6 +35,19 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
   const forgotPasswordFields = [
     { label: t('Email :'), type: 'email', name: 'email', placeholder: t('Enter your email') }
   ];
+  useEffect(() => {
+    return () => {
+      setMessage(''); // Reset the message when the component unmounts
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage('');
+    }, 5000); // Clear the message after 5 seconds
+  
+    return () => clearTimeout(timer); // Clear the timer when the component unmounts or when the message changes
+  }, [message]); 
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -80,6 +94,10 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
       }
     };
   
+    const navigateLogin = () =>{
+      setSignupMode(signupMode);
+      setForgotMode(!ForgotMode)
+    }
 
   
 
@@ -89,7 +107,7 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
   return (
     <div className="sidebar">
       <div className="logo-lang-container">
-        <div className="logo-container">
+        <div onClick={navigateLogin} className="logo-container">
           <img src={Logo} alt="Logo" className="logo" />
         </div>
         <LanguageSelector onLanguageChange={i18n.changeLanguage} />
@@ -102,23 +120,29 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
           fields={signupMode ? signupFields : loginFields}
           buttonText={signupMode ? t('signup') : t('login')}
           actionText={signupMode ? t('Create your account') : t('Log in to your account')}
-          onActionClick={() => setSignupMode(!signupMode)}
-          onForgotClick={() => setForgotMode(true)}
+          onActionClick={() => {setMessage(''); setSignupMode(!signupMode)}}
+          onForgotClick={() => {setMessage(''); setForgotMode(true)}}
         />
       </div> : 
      (
       <div className={`main-page ${formAlignmentClass}`}>
+        <div>
+         <ButtonLink onClick={navigateLogin}>{t("<- back")}</ButtonLink>
+         <br></br><br></br>
+         </div>
         {/* Apply the appropriate alignment class */}
         <Form
           onSubmit={handleForgotPassword}
           message={message}
           fields={forgotPasswordFields}
-          buttonText={t('Send Reset Email')}
+          buttonText={t('Reset Email')}
           actionText={t('Forgot Password?')}
           onActionClick={() => setForgotMode(false)} // Toggle back to the login form
           onForgotClick={() => setForgotMode(false)}
         />
+         
       </div>
+     
     )}
     </div>
   );
