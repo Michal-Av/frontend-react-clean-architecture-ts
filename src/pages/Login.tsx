@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Form from '../components/Containers/Form/Form';
-import { login, signup } from '../services/api-auth';
+import { login, signup, forgot_pass } from '../services/api-auth';
 import { useTranslation } from 'react-i18next';
 import '../styles/Login.css';
 import LanguageSelector from '../components/UIElements/Select/LanguageSelector';
@@ -65,16 +65,22 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
     }
   };
 
+ 
     // Handle forgot password submission
     const handleForgotPassword = async (formData: { email: string }) => {
       try {
+        await forgot_pass(formData.email);
+        alert('A link will be sent to the email to reset the password')
         // Implement your forgot password logic here
         console.log('Forgot password form submitted');
         setForgotMode(false); // After submitting, revert to the login form
       } catch (error) {
         setMessage('Failed to process the request');
+        setForgotMode(!ForgotMode);
       }
     };
+  
+
   
 
   // Determine the form alignment based on language direction

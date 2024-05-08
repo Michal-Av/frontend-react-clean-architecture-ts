@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Redirect, RouteProps } from 'react-router-dom';
 import LoginPage from './Login';
 import HomePage from './Home';
+import ResetPasswordPage from './ResetPassword'; // Import the ResetPasswordPage component
 
 const MainComp: React.FC = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   return (
     <Router>
@@ -15,6 +16,9 @@ const MainComp: React.FC = () => {
         <LoginPage setLoggedIn={setLoggedIn} />
       </Route>
       <PrivateRoute path="/home" component={HomePage} loggedIn={loggedIn} />
+      <Route path="/reset-password/:token"> {/* Add a new Route for the reset-password path */}
+        <ResetPasswordPage setLoggedIn={setLoggedIn} />
+      </Route>
     </Router>
   );
 };

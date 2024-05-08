@@ -26,3 +26,21 @@ export const signup = async (email: string, username: string, password: string):
         return response.data;
       });
 }
+
+export const forgot_pass = async (email: string): Promise<any> => {
+  let mail = { email: email };
+  return axios
+    .post(`${url}/forgot-password`, mail)
+    .then((response) => {
+      return response.data;
+    });
+}
+
+export const resetPassword = async (token: string, newPassword: string): Promise<any> => {
+  let data = { token, newPassword };
+  return axios
+    .post(`${url}/reset-password`, data)
+    .then((response) => {
+      return response.data;
+    });
+}

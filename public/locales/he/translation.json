@@ -13,9 +13,12 @@
   "Password": "סיסמא",
   "User Name :":"שם משתמש :",
   "Password :":"סיסמא :",
+  "Confirm Password :": "סיסמא חוזרת :",
   "Email :":"מייל :",
   "Enter your email":"הכנס מייל",
   "Enter your username":"הכנס שם משתמש ",
   "Enter your password":"הכנס סיסמא ",
-  "Log in now":"הכנס עכשיו"
+  "Log in now":"הכנס עכשיו",
+  "reset": "אפס",
+  "Reset Password":"איפוס סיסמא"
 }
