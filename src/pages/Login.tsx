@@ -57,17 +57,21 @@ const LoginComp: React.FC<LoginCompProps> = ({ setLoggedIn }) => {
     }
   }, [location.search, setLoggedIn]);
 
-  const handleLogin = async (formData: { username: string; password: string }) => {
-    try {
-      await login(formData.username, formData.password);
+ // LoginComp.js
+
+const handleLogin = async (formData: { username: string; password: string }) => {
+  try {
+      const response = await login(formData.username, formData.password);
       console.log('Logged in successfully');
       setLoggedIn(true);
       sessionStorage.setItem('isLoggedIn', 'true'); // Store authentication state in session storage
+      sessionStorage.setItem('csrfToken', response.csrfToken); // Store CSRF token
       history.push('/home');
-    } catch (error) {
+  } catch (error) {
       setMessage('User Name or password incorrect');
-    }
-  };
+  }
+};
+
 
   const handleSignup = async (formData: { email: string; username: string; password: string }) => {
     try {
